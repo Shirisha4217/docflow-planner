@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DoctorCard } from "@/components/DoctorCard";
@@ -8,6 +9,7 @@ import { Heart, Users, Clock, Star } from "lucide-react";
 import { doctors } from "@/data/doctors";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredDoctors = useMemo(() => {
@@ -30,7 +32,7 @@ const Index = () => {
           <div className="flex justify-between items-center mb-4">
             <Button 
               variant="outline" 
-              onClick={() => window.location.href = '/appointments'}
+              onClick={() => navigate('/appointments')}
               className="text-sm"
             >
               My Appointments
