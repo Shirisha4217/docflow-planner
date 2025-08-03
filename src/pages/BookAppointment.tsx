@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Clock, CheckCircle, User, Mail } from "lucide-react";
 import { doctors } from "@/data/doctors";
 import { useToast } from "@/hooks/use-toast";
+import { appointmentStorage } from "@/utils/localStorage";
 
 export default function BookAppointment() {
   const { id } = useParams();
@@ -48,12 +49,32 @@ export default function BookAppointment() {
       return;
     }
 
-    // Simulate booking
-    setIsSubmitted(true);
-    toast({
-      title: "Appointment Booked!",
-      description: `Your appointment with ${doctor.name} has been confirmed.`,
-    });
+    try {
+      // Save appointment to localStorage
+      const savedAppointment = appointmentStorage.saveAppointment({
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        patientName: formData.patientName,
+        email: formData.email,
+        selectedDay: formData.selectedDay,
+        selectedTime: formData.selectedTime
+      });
+
+      setIsSubmitted(true);
+      toast({
+        title: "Appointment Booked!",
+        description: `Your appointment with ${doctor.name} has been confirmed and saved.`,
+      });
+
+      console.log('Appointment saved:', savedAppointment);
+    } catch (error) {
+      toast({
+        title: "Booking Failed",
+        description: "There was an error saving your appointment. Please try again.",
+        variant: "destructive"
+      });
+      console.error('Error saving appointment:', error);
+    }
   };
 
   const handleTimeSelect = (day: string, time: string) => {
@@ -80,7 +101,7 @@ export default function BookAppointment() {
             <p className="text-sm text-muted-foreground mb-6">
               A confirmation email has been sent to {formData.email}
             </p>
-            <Button variant="success" onClick={() => navigate('/')} className="w-full">
+            <Button onClick={() => navigate('/')} className="w-full bg-success hover:bg-success/90 text-success-foreground">
               Back to Home
             </Button>
           </CardContent>

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DoctorCard } from "@/components/DoctorCard";
 import { SearchBar } from "@/components/SearchBar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Heart, Users, Clock, Star } from "lucide-react";
 import { doctors } from "@/data/doctors";
 
@@ -25,6 +26,17 @@ const Index = () => {
       {/* Hero Section */}
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-12">
+          {/* Theme Toggle & My Appointments */}
+          <div className="flex justify-between items-center mb-4">
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/appointments'}
+              className="text-sm"
+            >
+              My Appointments
+            </Button>
+            <ThemeToggle />
+          </div>
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Find & Book Appointments with 
